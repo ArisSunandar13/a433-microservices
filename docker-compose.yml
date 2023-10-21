@@ -1,0 +1,28 @@
+version: '3.7'
+# Menggunakan docker compose versi 3.7
+
+services:
+  item-app:
+    image: ghcr.io/arissunandar13/a433-microservices/item-app:v1
+    # Menggunakan image ghcr.io/arissunandar13/a433-microservices/item-app:v1 untuk service item-app
+    ports:
+      - 80:8080
+    # Meneruskan port 80 dari host ke port 8080 di dalam container item-app
+    depends_on:
+      - item-db
+    # Menyatakan bahwa service item-app bergantung pada service item-db
+    restart: always
+    # Menerapkan restart policy agar container selalu restart ketika terhenti
+
+  item-db:
+    image: mongo:3
+    # Menggunakan image mongo:3 untuk service item-db
+    volumes:
+      - app-db:/data/db
+    # Mengaitkan volume bernama app-db dengan direktori /data/db di dalam container item-db
+    restart: always
+    # Menerapkan restart policy agar container selalu restart ketika terhenti
+
+volumes:
+  app-db:
+  # Membuat volume bernama app-db
